@@ -1,7 +1,8 @@
 export class Address {
     private _address: string = '';
     private _zipCode: string = '';
-    private _number?: number
+    private _number?: number;
+    private static defaultCepValidation = 75000000
   
     public set address(address: string){
         if (address.length < 3) {
@@ -27,11 +28,14 @@ export class Address {
         this._number = number
     }
   
-    public get numberA(): number {
+    public get number(): number {
         return this._number ?? 123
+    }
+
+    public static isCepValid(zipCode: string): boolean {
+        return parseInt(zipCode.replace(/\D/g, '')) > Address.defaultCepValidation
     }
 }
 
-const address = new Address()
-address.zipCode = '00000-000'
-console.log(address.zipCode)
+console.log(Address.isCepValid('75605-987'))
+console.log(Address.isCepValid('74605-987'))
